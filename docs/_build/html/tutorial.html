@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial &mdash; urlshots-api 0.1.0-dev documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="urlshots-api 0.1.0-dev documentation" href="index.html" />
+    <link rel="next" title="API Documentation" href="api.html" />
+    <link rel="prev" title="UrlShots Python API Documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API Documentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="UrlShots Python API Documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">urlshots-api 0.1.0-dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial will familiarize you with the installation and usage of
+the UrlShots python client.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>The UrlShots client requires <a class="reference external" href="http://pypi.python.org/pypi/pytool">Pytool</a> (<tt class="docutils literal"><span class="pre">&gt;=2.3.2</span></tt>), <a class="reference external" href="http://pypi.python.org/pypi/pyconfig">Pyconfig</a> (<tt class="docutils literal"><span class="pre">&gt;=1.2.0</span></tt>), and <a class="reference external" href="http://pypi.python.org/pypi/urllib3">Urllib3</a>
+these are install for you automatically when you install the Urlshots client via pip or easy_install.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip install -U urlshots-api    <span class="c"># preferred</span>
+<span class="nv">$ </span>easy_install -U urlshots-api   <span class="c"># without pip</span>
+</pre></div>
+</div>
+<p>To get the latest development version of the Urlshots client, clone the code via bitbucket and install:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>git clone https://bitbucket.org/urlshots/urlshots-api.git
+<span class="nv">$ </span><span class="nb">cd </span>urlshots-api
+<span class="nv">$ </span>python setup.py install
+</pre></div>
+</div>
+</div>
+<div class="section" id="quickstart-your-first-screenshot">
+<h2>Quickstart: Your first screenshot<a class="headerlink" href="#quickstart-your-first-screenshot" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial assumes you already have the UrlShots client installed and working. Right off the bat
+all you are required to do is instantiate the API and call the image method with a url string</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">urlshots</span> <span class="kn">import</span> <span class="n">API</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span> <span class="o">=</span> <span class="n">API</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">screenshot</span> <span class="o">=</span> <span class="n">urlshot</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="s">&#39;http://www.google.com&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>At this point the <tt class="docutils literal"><span class="pre">screenshot</span></tt> variable contains a binary image you can...</p>
+<p class="rubric">Write the image to a file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;image.png&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">open_file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">open_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">screenshot</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setting-parameters">
+<h2>Setting parameters<a class="headerlink" href="#setting-parameters" title="Permalink to this headline">¶</a></h2>
+<p>This section will detail how you can get more control out of your screenshot request.
+For a full listing of paramters and their description please refer to the <em class="xref std std-ref">API Documentation</em></p>
+<p>As shown above you will want to start with creating an instance of the API.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">urlshots</span> <span class="kn">import</span> <span class="n">API</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span> <span class="o">=</span> <span class="n">API</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="rubric">Delay</p>
+<p>Next you can define how long the page should wait after initial load (in seconds).  This
+can come in handy in the case of javascript rendering extra elements on the page after <tt class="docutils literal"><span class="pre">onLoad</span></tt>.
+(Max: 5 seconds)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">delay</span> <span class="o">=</span> <span class="mi">4</span>      <span class="c"># Page will wait 4 seconds before grabbing the screenshot.</span>
+</pre></div>
+</div>
+<p class="rubric">JPEG</p>
+<p>You can set the JPEG quality on your screenshot as any value between 1 <tt class="docutils literal"><span class="pre">min</span></tt>  and 100 <tt class="docutils literal"><span class="pre">max</span></tt>.  Alternatively
+setting this value to <tt class="docutils literal"><span class="pre">0</span></tt> will return an uncompressed PNG.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">jpeg</span> <span class="o">=</span> <span class="mi">100</span>      <span class="c"># Will return a JPEG image with 100% quality.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">jpeg</span> <span class="o">=</span> <span class="mi">75</span>       <span class="c"># Will return a JPEG image with 75% quality.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">jpeg</span> <span class="o">=</span> <span class="mi">25</span>       <span class="c"># Will return a JPEG image with 25% quality.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">jpeg</span> <span class="o">=</span> <span class="mi">0</span>        <span class="c"># Will return an uncompressed PNG image</span>
+</pre></div>
+</div>
+<p class="rubric">Compression</p>
+<p>Setting the compression flag to a 1 will compress your PNG screenshot to an 8-bit indexed image. (Default: 0)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">compression</span> <span class="o">=</span> <span class="mi">1</span>      <span class="c"># compression = True</span>
+</pre></div>
+</div>
+<p class="rubric">Timeout</p>
+<p>Timeout will tell the page how long to wait for the page to become responsive before returning an error. (Default: 20 seconds)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="mi">10</span>      <span class="c"># Page will wait 10 seconds and return an error if no response from the server</span>
+</pre></div>
+</div>
+<p class="rubric">Actions</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">actions</span> <span class="o">=</span> <span class="s">&#39;crop:0,0,800,600&#39;</span>      <span class="c"># Screenshot will crop to this specific box size</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">actions</span> <span class="o">=</span> <span class="s">&#39;scale:.75&#39;</span>             <span class="c"># Screenshot will be 75% of it&#39;s original resolution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">actions</span> <span class="o">=</span> <span class="s">&#39;scale:.75|crop:0,0,800,600&#39;</span>             <span class="c"># Both of the above in order</span>
+</pre></div>
+</div>
+<p class="rubric">Concurrency</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">concurrency</span> <span class="o">=</span> <span class="mi">1</span>      <span class="c"># How many concurrent requests can your application handle?</span>
+</pre></div>
+</div>
+<p class="rubric">Window</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">)</span>      <span class="c"># Window resolution to render the page at</span>
+</pre></div>
+</div>
+<p class="rubric">Host (expert)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">urlshot</span><span class="o">.</span><span class="n">opts</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="s">&#39;api123.urlshots.net&#39;</span>      <span class="c"># Only use if you have a special instance assigned to your api key</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tutorial</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#quickstart-your-first-screenshot">Quickstart: Your first screenshot</a></li>
+<li><a class="reference internal" href="#setting-parameters">Setting parameters</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">UrlShots Python API Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="next chapter">API Documentation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/tutorial.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API Documentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="UrlShots Python API Documentation"
+             >previous</a> |</li>
+        <li><a href="index.html">urlshots-api 0.1.0-dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jacob Alheid.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>
