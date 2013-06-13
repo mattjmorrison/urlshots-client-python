@@ -7,7 +7,7 @@
 
 
 =================================
-UrlShots Python API Documentation
+URLShots Python API Documentation
 =================================
 
 This document should serve as a guide for utilizing the installable urlshots-api
