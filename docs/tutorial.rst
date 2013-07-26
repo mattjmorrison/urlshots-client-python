@@ -37,24 +37,17 @@ Quickstart: Your first screenshot
 =================================
 
 This tutorial assumes you already have the URLShots client installed and
-working. Right off the bat
-all you are required to do is instantiate the API and call the image method
-with a url string
+working. Right off the bat all you are required to do is instantiate the API
+and call the image method with a url string
 
 ::
 
     >>> from urlshots import API
-    >>> urlshot = API()
+    >>> urlshot = API(api_key='DEMO')
     >>> screenshot = urlshot.image('http://www.google.com')
-
-At this point the ``screenshot`` variable contains a binary image you can...
-
-.. rubric:: Write the image to a file:
-
-::
-
     >>> with open('image.png', 'w') as open_file:
     ...     open_file.write(screenshot)
+
 
 Setting parameters
 ==================
@@ -63,7 +56,7 @@ This section will detail how you can get more control out of your screenshot
 request.
 
 For a full listing of paramters and their description please refer to the
-:ref:`API Documentation <api>`
+:doc:`api`.
 
 As shown above you will want to start with creating an instance of the API.
 

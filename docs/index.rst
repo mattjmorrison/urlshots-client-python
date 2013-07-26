@@ -15,15 +15,13 @@ python egg with your projects.
 
 .. rubric:: Quickstart Example with defaults:
 
-(todo: add api-key)
-
 ::
 
     >>> from urlshots import API
-    >>> urlshot = API()
-    >>> screenshot = urlshot.image('http://www.google.com')
+    >>> urlshots_api = API(api_key='DEMO')
+    >>> shot = urlshots_api.image('http://www.google.com')
     >>> with open('image.png', 'w') as open_file:
-    ...     open_file.write(screenshot)
+    ...     open_file.write(shot)
 
 Contents:
 
