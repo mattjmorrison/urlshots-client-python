@@ -1,5 +1,5 @@
 import multiprocessing, logging # Fix atexit bug
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 __version__ = '0.0.0-dev' # False version to help out static analyzers
