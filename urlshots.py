@@ -7,7 +7,7 @@ import pyconfig
 from pytool.lang import hashed_singleton, Namespace, UNSET
 
 
-__version__ = '0.1.0-dev'
+__version__ = '0.2.0-dev'
 
 
 @hashed_singleton
@@ -15,33 +15,58 @@ class API(object):
     """
     This is the UrlShots API client.
 
-    :param int delay: Delay in seconds after loading before screenshotting
-                      (default: ``0``)
-    :param int jpeg: JPEG compression; 0 means no JPEG, return a PNG instead
-                     (default: ``75``)
-    :param int compress: Whether to compress a PNG to an 8-bit indexed image
-                         (defalt: ``0``)
-    :param int timeout: Timeout when hitting the API (default: ``20``)
-    :param str actions: Actions chain as a string (default: ``None``)
-    :param str concurrency: Maximum connection pool size for use in
-                            multithreaded or concurrent applications
-                            (default: ``1``)
-    :param tuple window: Size of the capture window to use as a tuple of
-                         ``(width, height)`` (default: ``(1260, 840)``)
-    :param str host: UrlShots API hostname (default: ``'urlshots.net'``)
+    :param api_key: API key for use with URLshots API (optional)
+    :param host: URLshots API hostname (default: ``'urlshots.net'``)
+    :param timeout: Timeout for requests to the API (default: ``20``)
+    :param delay: Delay in seconds after loading before screenshotting
+                  (default: ``0``)
+    :param jpeg: JPEG compression; 0 means no JPEG, return a PNG instead
+                 (default: ``75``)
+    :param compress: Whether to compress a PNG to an 8-bit indexed image
+                     (default: ``0``)
+    :param actions: Actions chain as a string (default: ``None``)
+    :param concurrency: Maximum connection pool size for use in
+                        multithreaded or concurrent applications (default:
+                        ``1``)
+    :param window: Size of the capture window to use as a tuple of ``(width,
+                   height)`` (default: ``(1260, 840)``)
+    :param script: A Javascript snippet to execute after page load (optional)
+    :type host: str
+    :type timeout: int
+    :type delay: int
+    :type jpeg: int
+    :type compress: int
+    :type actions: str
+    :type concurrency: int
+    :type window: tuple
+    :type script: str
+
+    .. method:: image
+
+       Return a binary image of a screenshot of `url`. The returned image is
+       suitable for directly writing to a filesystem, or opening in an image
+       library such as PIL.
+
+       If the URLshots API returns a non-200 HTTP status, indicating it was
+       unable to capture a shot, then ``None`` will be returned.
+
+       :param url: A URL to capture
+       :type url: str
 
     """
-
-    # Default options
     opts = Namespace()
+    # Client options
+    opts.host = 'urlshots.net'
+    opts.concurrency = 1
+    opts.timeout = 20
+    # API options
+    opts.api_key = UNSET
     opts.delay = 0
     opts.jpeg = 75
     opts.compress = 0
-    opts.timeout = 20
     opts.actions = UNSET
-    opts.concurrency = 1
     opts.window = (1260, 840)
-    opts.host = 'urlshots.net'
+    opts.script = UNSET
     # This converts the opts to pyconfig settings
     for name, value in opts:
         setattr(opts, name, pyconfig.setting('urlshots.' + name, value))
@@ -67,11 +92,12 @@ class API(object):
         # Remove the options that are not for the API
         for name in 'concurrency', 'timeout', 'host':
             params.pop(name)
-        # Remove actions if it's not set
-        if params['actions'] is UNSET:
-            params.pop('actions')
+        # Remove actions and script if they're not set
+        for name in 'actions', 'script', 'api_key':
+            if params[name] is UNSET:
+                params.pop(name)
         # Coerce window size
-        params['window'] = '{}x{}'.format(*params['window'])
+        params['window'] = '{:d}x{:d}'.format(*params['window'])
         return params
 
     def request(self, url, params=None):
