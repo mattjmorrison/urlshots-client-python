@@ -67,10 +67,12 @@ class API(object):
     opts.actions = UNSET
     opts.window = (1260, 840)
     opts.script = UNSET
+    # XXX: This is disabled for now, since it would cause all instances to
+    # share settings, which is not the behavior we want
     # This converts the opts to pyconfig settings
-    for name, value in opts:
-        setattr(opts, name, pyconfig.setting('urlshots.' + name, value))
-    del name, value # Remove left over vars so they don't end up in the class
+    # for name, value in opts:
+    #     setattr(opts, name, pyconfig.setting('urlshots_api.' + name, value))
+    # del name, value # Remove left over vars so they don't end up in the class
 
     def __init__(self, **kwargs):
         # Parse keyword options
